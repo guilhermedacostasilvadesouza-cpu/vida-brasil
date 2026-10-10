@@ -23,35 +23,45 @@ Níveis, XP, sons (WebAudio, sem arquivos), confete, progresso salvo no aparelho
 
 ## 📲 Instalar o APK no Android
 
-1. Vá em **[Actions → Build APK (Android)](../../actions/workflows/build-apk.yml)** e abra o run mais recente; **ou** pegue direto na aba **[Releases](../../releases)**.
-2. Baixe o artefato **VidaBrasil-APK** (contém `vida-brasil-v1.0.0-debug.apk`).
-3. Copie para o celular, toque no arquivo e permita "instalar apps de fontes desconhecidas".
-4. Pronto: **Vida Brasil** instalado, com ícone próprio e 100% offline. 🎉
+**Download direto:** vá na aba **[Releases](../../releases)** e baixe `vida-brasil-v1.0.0.apk`.
 
-> O `debug.apk` é assinado automaticamente e serve para usar/distribuir entre amigos.
-> Para publicar na Play Store, use o `release-assinavel.apk` e assine com sua keystore:
-> `apksigner sign --ks sua-chave.keystore --out vida-brasil.apk app-release-unsigned.apk`
+1. Baixe o APK no celular (ou copie por cabo/nuvem).
+2. Toque no arquivo e permita "instalar apps de fontes desconhecidas".
+3. Pronto: **Vida Brasil** instalado, com ícone próprio e 100% offline. 🎉
 
-## ⚡ Ativar o build automático do APK (1 minuto, só 1 vez)
+| Detalhe | Valor |
+|---|---|
+| Pacote | `br.com.vidabrasil.game` |
+| Versão | 1.0.0 (versionCode 1) |
+| Compatibilidade | Android 5.0+ (minSdk 21, targetSdk 31) |
+| Permissões | **nenhuma** — funciona 100% offline |
+| Assinaturas | v1 (JAR) + v2 (APK Signature Scheme), chave debug incluída no repo |
 
-O pipeline completo já está pronto em **`ci/build-apk.yml`** — falta apenas o GitHub
-enxergá-lo em `.github/workflows/`. Escolha UMA das opções:
+> O APK é assinado com a **chave debug** versionada em `tools/` — instalável em
+> qualquer aparelho. Para publicar na Play Store, gere uma chave de produção e
+> assine o `vida-brasil-unsigned.apk` com ela.
 
-**Opção A — pela web (sem terminal):**
-1. Abra `ci/build-apk.yml` aqui no GitHub, clique em ✏️ (editar), selecione todo o conteúdo e copie (Ctrl+C).
-2. Neste repositório, clique em **Add file → Create new file**, digite o nome
-   `.github/workflows/build-apk.yml`, cole o conteúdo e faça **Commit**.
-3. O build do APK dispara sozinho. Depois é só pegar o APK em **Actions → Artifacts**.
+## ⚡ Build automático via GitHub Actions (opcional)
 
-**Opção B — terminal (quem clonou o repo):**
+Existe um pipeline pronto em **`ci/build-apk.yml`** que gera o APK no Actions.
+Como o envio de arquivos de workflow exige permissão especial no GitHub, ele
+não está em `.github/workflows/` — para ativar, copie o arquivo para lá pela
+interface web (Add file → Create new file → cole o conteúdo → commit). O build
+dispara a cada push e o APK aparece em **Actions → Artifacts**.
+
+### Build local (sem Android SDK!)
+
 ```bash
-mkdir -p .github/workflows && cp ci/build-apk.yml .github/workflows/build-apk.yml
-git add .github && git commit -m "CI: ativa build do APK" && git push
+bash tools/build-apk-local.sh
+# → _build/out/vida-brasil-1.0.0.apk (assinado v1+v2)
 ```
 
-> Se você é o dono do repositório e usa um app/integração para enviar código,
-> a opção A é o caminho mais rápido (a integração pode não ter permissão de
-> `workflows`, mas a interface web do GitHub, sim).
+O script baixa sozinho o template WebView + apktool (npm), usa Java via
+`jdk4py` (pip) e assina em Python puro (`tools/sign-apk.py`). Valide com:
+
+```bash
+apksigtool verify _build/out/vida-brasil-1.0.0.apk   # "v2 verified"
+```
 
 
 ## 🛠️ Rodar na web (PWA)
@@ -92,15 +102,15 @@ Ou simplesmente: `npm run build:apk`
 │   ├── make-icons.py     # gera os PNGs a partir de _build/icon-master.png
 │   └── preview-server.py # servidor de preview
 ├── _build/               # ícone mestre (fonte dos demais) + teste de fumaça
-├── ci/build-apk.yml      # pipeline do APK → mova para .github/workflows/ (ver README)
+├── ci/build-apk.yml      # pipeline opcional do APK (ver README, seção Actions)
 ├── config.xml            # config do Cordova (id, nome, ícones)
 ```
 
 ## 🧪 Stack
 
 - **Jogo**: HTML5 + CSS3 + JavaScript vanilla (zero dependências em runtime)
-- **Empacotamento**: Apache Cordova (WebView do sistema)
-- **CI**: GitHub Actions → APK a cada push na `main`
+- **APK**: WebView nativa (template apkjs) + apktool + assinador Python próprio (`tools/sign-apk.py`, validado no apksigtool/apksig)
+- **CI**: GitHub Actions opcional → APK automático (ver README)
 
 ## 📄 Licença
 
