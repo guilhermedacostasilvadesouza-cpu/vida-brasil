@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="br.com.vidabrasil.game" version="1.0.0"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Vida Brasil</name>
+    <description>
+        O jogo da vida cotidiana brasileira: dirija, economize, pague contas e vire o mestre do trânsito. 100% offline.
+    </description>
+    <author email="contato@vidabrasil.example" href="https://github.com/guilhermedacostasilvadesouza-cpu/vida-brasil">
+        Vida Brasil
+    </author>
+
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <preference name="BackgroundColor" value="0xff0c1220" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#0c1220" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="500" />
+    <preference name="Fullscreen" value="false" />
+
+    <platform name="android">
+        <icon density="ldpi"    src="res/icon/android/ldpi.png" />
+        <icon density="mdpi"    src="res/icon/android/mdpi.png" />
+        <icon density="hdpi"    src="res/icon/android/hdpi.png" />
+        <icon density="xhdpi"   src="res/icon/android/xhdpi.png" />
+        <icon density="xxhdpi"  src="res/icon/android/xxhdpi.png" />
+        <icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png" />
+        <allow-intent href="market:*" />
+    </platform>
+</widget>

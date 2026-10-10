@@ -1,0 +1,15 @@
+# Dependências e build
+node_modules/
+platforms/
+plugins/
+dist/
+*.apk
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Editores
+.vscode/
+.idea/

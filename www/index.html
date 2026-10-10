@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0c1220">
+  <title>Vida Brasil 🚗</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/pwa-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app">
+
+    <header id="topo">
+      <div class="topo-linha">
+        <div class="marca">🚗 Vida Brasil</div>
+        <div class="chips">
+          <span class="chip chip-dinheiro" id="chip-dinheiro">💰 R$ 0,00</span>
+          <span class="chip chip-nivel" id="chip-nivel">⭐ Nv 1</span>
+          <span class="chip chip-comb" id="chip-comb">⛽ 0%</span>
+        </div>
+      </div>
+      <div class="xpbar"><div class="xpfill" id="xpfill"></div><span class="xptxt" id="xptxt">0/60 XP</span></div>
+    </header>
+
+    <main id="conteudo">
+      <section class="tela ativa" id="tela-home" aria-label="Início"></section>
+      <section class="tela" id="tela-jogar" aria-label="Dirigir"></section>
+      <section class="tela" id="tela-posto" aria-label="Posto"></section>
+      <section class="tela" id="tela-mercado" aria-label="Mercado"></section>
+      <section class="tela" id="tela-quiz" aria-label="Quiz"></section>
+      <section class="tela" id="tela-mais" aria-label="Mais"></section>
+    </main>
+
+    <nav id="tabbar">
+      <button class="tab ativa" data-tela="home"><span class="ico">🏠</span><span class="lbl">Início</span></button>
+      <button class="tab" data-tela="jogar"><span class="ico">🚗</span><span class="lbl">Dirigir</span></button>
+      <button class="tab" data-tela="posto"><span class="ico">⛽</span><span class="lbl">Posto</span></button>
+      <button class="tab" data-tela="mercado"><span class="ico">🛒</span><span class="lbl">Mercado</span></button>
+      <button class="tab" data-tela="quiz"><span class="ico">📝</span><span class="lbl">Quiz</span></button>
+      <button class="tab" data-tela="mais"><span class="ico">🎮</span><span class="lbl">Mais</span></button>
+    </nav>
+  </div>
+
+  <!-- Modal genérico -->
+  <div id="modal-wrap" class="oculto" role="dialog" aria-modal="true">
+    <div class="modal-fundo" onclick="app.fecharModal()"></div>
+    <div class="modal-caixa">
+      <h3 id="modal-titulo"></h3>
+      <div id="modal-corpo"></div>
+      <div id="modal-botoes"></div>
+    </div>
+  </div>
+
+  <!-- Onboarding -->
+  <div id="onboarding" class="oculto">
+    <div class="onb-caixa">
+      <div class="onb-logo">🚗🇧🇷</div>
+      <h1>Vida Brasil</h1>
+      <p class="onb-sub">O jogo da vida cotidiana brasileira: dirija, economize, pague contas e vire o mestre do trânsito!</p>
+      <label class="onb-lbl" for="onb-nome">Como quer ser chamado(a), motorista?</label>
+      <input id="onb-nome" maxlength="16" placeholder="Seu nome" autocomplete="off">
+      <div class="onb-lbl">Escolha seu veículo:</div>
+      <div class="onb-avatares" id="onb-avatares"></div>
+      <button id="onb-comecar" class="btn btn-primario btn-grande" onclick="app.comecar()">🚦 Começar minha vida!</button>
+      <p class="onb-nota">Seu progresso fica salvo no aparelho. Sem cadastro, sem internet, 100% gratuito.</p>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <canvas id="confetti"></canvas>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
