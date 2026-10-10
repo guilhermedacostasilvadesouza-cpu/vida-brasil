@@ -4,6 +4,7 @@ platforms/
 plugins/
 dist/
 *.apk
+!apk/*.apk
 
 # Sistema
 .DS_Store
