@@ -1,3 +1,5 @@
+# ⚠️ ATIVAÇÃO: mova este arquivo para .github/workflows/build-apk.yml no repositório
+# (veja o passo a passo no README, seção "Ativar o build automático do APK").
 name: Build APK (Android)
 
 on:

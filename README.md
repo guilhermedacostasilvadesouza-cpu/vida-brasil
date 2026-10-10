@@ -32,6 +32,28 @@ Níveis, XP, sons (WebAudio, sem arquivos), confete, progresso salvo no aparelho
 > Para publicar na Play Store, use o `release-assinavel.apk` e assine com sua keystore:
 > `apksigner sign --ks sua-chave.keystore --out vida-brasil.apk app-release-unsigned.apk`
 
+## ⚡ Ativar o build automático do APK (1 minuto, só 1 vez)
+
+O pipeline completo já está pronto em **`ci/build-apk.yml`** — falta apenas o GitHub
+enxergá-lo em `.github/workflows/`. Escolha UMA das opções:
+
+**Opção A — pela web (sem terminal):**
+1. Abra `ci/build-apk.yml` aqui no GitHub, clique em ✏️ (editar), selecione todo o conteúdo e copie (Ctrl+C).
+2. Neste repositório, clique em **Add file → Create new file**, digite o nome
+   `.github/workflows/build-apk.yml`, cole o conteúdo e faça **Commit**.
+3. O build do APK dispara sozinho. Depois é só pegar o APK em **Actions → Artifacts**.
+
+**Opção B — terminal (quem clonou o repo):**
+```bash
+mkdir -p .github/workflows && cp ci/build-apk.yml .github/workflows/build-apk.yml
+git add .github && git commit -m "CI: ativa build do APK" && git push
+```
+
+> Se você é o dono do repositório e usa um app/integração para enviar código,
+> a opção A é o caminho mais rápido (a integração pode não ter permissão de
+> `workflows`, mas a interface web do GitHub, sim).
+
+
 ## 🛠️ Rodar na web (PWA)
 
 O jogo também roda em qualquer navegador (celular ou PC), instalável como app:
@@ -69,9 +91,9 @@ Ou simplesmente: `npm run build:apk`
 ├── tools/
 │   ├── make-icons.py     # gera os PNGs a partir de _build/icon-master.png
 │   └── preview-server.py # servidor de preview
-├── _build/               # ícone mestre (fonte dos demais)
+├── _build/               # ícone mestre (fonte dos demais) + teste de fumaça
+├── ci/build-apk.yml      # pipeline do APK → mova para .github/workflows/ (ver README)
 ├── config.xml            # config do Cordova (id, nome, ícones)
-└── .github/workflows/build-apk.yml  # CI que empacota o APK
 ```
 
 ## 🧪 Stack
