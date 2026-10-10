@@ -1,0 +1,30 @@
+# Dependências e build
+node_modules/
+platforms/
+plugins/
+dist/
+*.apk
+!apk/*.apk
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Editores
+.vscode/
+.idea/
+
+# Toolchain e artefatos do build de APK
+_build/vendor/
+_build/decoded/
+_build/out/
+__pycache__/
+*.pyc
+
+# Toolchain e artefatos do build de APK
+_build/vendor/
+_build/decoded/
+_build/out/
+__pycache__/
+*.pyc

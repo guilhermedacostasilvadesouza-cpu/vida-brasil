@@ -1,0 +1,74 @@
+# ⚠️ ATIVAÇÃO: mova este arquivo para .github/workflows/build-apk.yml no repositório
+# (veja o passo a passo no README, seção "Ativar o build automático do APK").
+name: Build APK (Android)
+
+on:
+  push:
+    branches: [main, 'arena/**']
+    paths: ['www/**', 'config.xml', 'package.json', 'tools/**', '.github/workflows/*.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    name: Empacotar APK (debug + release-assinável)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: ☕ Java 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: 🟢 Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 🤖 Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: 📦 Licenças + plataformas
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: 🧰 Instalar Cordova
+        run: npm install -g cordova@12
+
+      - name: 🧩 Adicionar plataforma Android
+        run: |
+          cordova platform add android@13
+          cordova prepare android
+
+      - name: 🔨 Build debug (APK instalável)
+        run: |
+          cordova build android --debug
+          mkdir -p dist
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk dist/vida-brasil-v1.0.0-debug.apk
+
+      - name: 🔨 Build release (assinável p/ loja)
+        run: |
+          cordova build android --release -- --packageType=apk
+          cp platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk dist/vida-brasil-v1.0.0-release-assinavel.apk
+          ls -la dist
+
+      - name: 📤 Publicar artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: VidaBrasil-APK
+          path: dist/*.apk
+          if-no-files-found: error
+
+      - name: 🏷️ Publicar no Release (quando for tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.apk
+          generate_release_notes: true

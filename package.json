@@ -1,0 +1,24 @@
+{
+  "name": "vida-brasil",
+  "displayName": "Vida Brasil",
+  "version": "1.0.0",
+  "description": "O jogo da vida cotidiana brasileira: dirija, economize e vire o mestre do trânsito. PWA + APK (Cordova).",
+  "main": "www/index.html",
+  "scripts": {
+    "start": "python3 tools/preview-server.py",
+    "android": "cordova platform add android@13 && cordova run android",
+    "build:apk": "cordova platform add android@13 && cordova build android --debug && mkdir -p dist && cp platforms/android/app/build/outputs/apk/debug/app-debug.apk dist/vida-brasil-debug.apk"
+  },
+  "keywords": [
+    "jogo",
+    "brasil",
+    "cordova",
+    "apk",
+    "pwa",
+    "android"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "cordova": "^12.0.0"
+  }
+}
